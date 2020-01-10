@@ -8,14 +8,15 @@ class Operation {
     public $solution = false;
     public $solvable = false;
     public $missing;
+    public $workspace = false;
 
     private $reduced = false;
 
-    function __construct ($operator, $operand1, $operand2, &$registers = false) {
+    function __construct ($operator, $operand1, $operand2, &$workspace = false) {
         $this->operator = $operator;
         $this->operands[0] = $operand1;
         $this->operands[1] = $operand2;
-        $this->registers = &$registers;
+        $this->workspace = &$workspace;
     }
 
     public function express () {
@@ -49,11 +50,17 @@ class Operation {
             if (\is_string($v) && !\is_numeric($v)) {
                 if (($i === 0) && ($this->operator === '=')) {
                     // ...a special case for register assignment
-                    $this->registers[$v] = &$this;
+                    $this->workspace->registers[$v] = &$this;
                     $vals[] = $v;
                     continue;
                 }
-                $v = &$this->registers[$v];
+                if (!key_exists($v, $this->workspace->registers)) {
+                    $this->solvable = false;
+                    $vals[] = $v;
+                    $this->missing[] = 'register ' . $v;
+                    continue;
+                } else
+                    $v = &$this->workspace->registers[$v];
             }
 
             if ($v instanceof self) {
@@ -63,6 +70,7 @@ class Operation {
                 if (!\is_numeric($tmp)) {
                     $this->solvable = false;
                     $this->missing = array_merge($this->missing, $v->missing);
+                    $vals = array_merge($vals, $tmp);
                 }
                 $v = $tmp;
             }

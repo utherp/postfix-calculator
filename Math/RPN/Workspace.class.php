@@ -9,7 +9,7 @@ require_once('Operation.class.php');
 class Workspace { 
 
     // variable registers
-    private $registers = [];
+    public $registers = [ ];
     // workspace RPN expressions
     public $expressions = [];
 
@@ -78,8 +78,10 @@ class Workspace {
 
             $op2 = \array_pop($stack);
             $op1 = \array_pop($stack);
-            $operation = new Operation($pipeline[$i], $op1, $op2, $this->registers);
+            $operation = new Operation($pipeline[$i], $op1, $op2, $this);
             \array_push($stack, $operation);
+            $operation->reduce();
+            $this->registers['idx']++;
         }
         // for well-formed RPN, there should only be *one* item in the stack... and Operation object
         if (count($stack) !== 1) throw new MalformedExpression('Incorrect operand count');

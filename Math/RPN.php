@@ -14,3 +14,32 @@ function rpn_solve($expr, $registers = []) {
 }
 
 
+// some simple console display funciions
+function dump_state ($ws) {
+    output_expr($ws);
+    output_reg($ws);
+}
+
+function output_expr ($ws) {
+    print "\nExpressions\n================================================================\n";
+    print " idx | reduced               |  expression\n";
+    foreach ($ws->expressions as $i => $expr)
+        printf("----------------------------------------------------------------\n %3u | %20s  |  %s\n", $i, $expr . '', $expr->express());
+    print "================================================================\n";
+}
+
+function output_reg ($ws) {
+    if (!count($ws->registers)) {
+        print "No registers\n";
+        return;
+    }
+    print "\nRegisters\n======================================================\n";
+    print " name      | value\n";
+    foreach ($ws->registers as $k => $reg) {
+        $v = is_object($reg) ? $reg->reduce() : $reg;
+        printf("------------------------------------------------------\n%10s | %s\n", $k, $v);
+    }
+    print "======================================================\n";
+}
+
+
