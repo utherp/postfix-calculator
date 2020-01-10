@@ -26,32 +26,38 @@ class Workspace {
 
     // dump all expressions to the output
     public function dump_expressions () {
-        foreach ($this->expressions as $i => $expr) {
-            \printf("%2u> %s\n", $i, $expr->express());
-        }
+        $expressions = [];
+        foreach ($this->expressions as $expr)
+            $expressions[] = $expr->express();
+        return $expressions;
     }
 
     // dump all reduced expressions to output
     public function dump_reductions () {
-        foreach ($this->expressions as $i => $expr) {
+        $reduced = [];
+        foreach ($this->expressions as $expr) {
             $r = $expr->reduce();
-            \printf("%2u> %s\n", $i, \is_array($r) ? \implode(' ', $r) : $r);
+            $reduced[] = \is_array($r) ? \implode(' ', $r) : $r;
         }
+        return $reduced;
     }
 
     // dump all registers to output
     public function dump_registers () {
+        $registers = [];
         foreach ($this->registers as $n => $reg) 
-            \printf("%8s:  %s\n", $n, $reg . '');
+            $registers[$n] = $reg . '';
+        return $registers;
     }
 
-    // solve (or reduce) an expression by index
+    // solve (or reduce) an expression
     public function solve($i) {
         return $this->expressions[$i] . ' ';
     }
 
     // set register space
     public function set_registers(&$registers) { $this->registers = &$registers; }
+
     // add registers to register space
     public function add_registers(&$registers) {
         foreach ($registers as $n => &$reg)
