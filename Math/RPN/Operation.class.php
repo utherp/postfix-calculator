@@ -1,7 +1,6 @@
 <?php
 namespace Math\RPN;
-require_once('Workspace.class.php');
-require_once('Exceptions.class.php');
+\require_once('Exceptions.class.php');
 
 class Operation {
     public $operands = [ NULL, NULL ];
