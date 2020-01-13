@@ -1,8 +1,11 @@
 <?php
 require_once('Math/RPN.php');
 
+// Create a Registry array
+$registry = [];
+
 // Create a new workspace
-$workspace = new \Math\RPN\Workspace();
+$workspace = new \Math\RPN\Workspace($registry);
 
 /* 
     supported mathematical symbols are:
@@ -24,19 +27,13 @@ $workspace = new \Math\RPN\Workspace();
 $workspace->add_expression('-1 7 10 33 83 * + - * 2 ^');
 $workspace->add_expression('3 27 √');
 
-// display the expressions and registers
-dump_state($workspace);
-
 // add an expression using a register called 'myVar'
 $workspace->add_expression('3 4 * 5 myVar 20 + - -');
-
 // note that the expression is reduced, but not solved, to: 12 5 myVar 20 + - -
-dump_state($workspace);
 
 // now lets add an expression that sets the register
 $workspace->add_expression('myVar 5 =');
 
 // now we can see the expression has been solved to: 32
-dump_state($workspace);
 
 
