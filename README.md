@@ -16,7 +16,7 @@ I am firmly against writing the same thing twice.  A library of classes makes re
 
 How do I install it?
 
-Checkout this repository out and require_once("lib/Math/RPN.php").  This will automatically include all other necessary files.
+Check this repository out and require_once("lib/Math/RPN.php").  This will automatically include all other necessary files.
 
 
 
