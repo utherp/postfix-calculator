@@ -5,7 +5,13 @@ class Exception extends \Exception { }
 
 class MalformedExpression extends Exception { 
     function __construct($msg) { 
-        parent::__construct('Malformed Expression: ' . $msg); 
+        parent::__construct('Malformed expression or unknown operator: ' . $msg); 
+    }
+}
+
+class InvalidUnaryOperation extends Exception { 
+    function __construct($msg) { 
+        parent::__construct('Incorrect Unary Operation: ' . $msg);
     }
 }
 

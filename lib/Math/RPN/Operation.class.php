@@ -50,22 +50,23 @@ class Operation {
             if (\is_string($v) && !\is_numeric($v)) {
                 if (($i === 0) && ($this->operator === '=')) {
                     // ...a special case for register assignment
-                    $this->workspace->registers[$v] = &$this;
+                    $this->workspace->registry->$v = $this;
                     $vals[] = $v;
                     continue;
                 }
-                if (!key_exists($v, $this->workspace->registers)) {
+                if (!isset($this->workspace->registry[$v])) {
                     $this->solvable = false;
                     $vals[] = $v;
                     $this->missing[] = 'register ' . $v;
                     continue;
                 } else
-                    $v = &$this->workspace->registers[$v];
+                    $v = &$this->workspace->registry[$v];
             }
 
             if ($v instanceof self) {
                 // an operand is another operation, reduce it
                 $tmp = $v->reduce();
+                if (count($tmp) === 1) $tmp = $tmp[0];
 
                 if (!\is_numeric($tmp)) {
                     $this->solvable = false;
@@ -83,7 +84,7 @@ class Operation {
 
         if ($this->solvable) {
             if (!$solve) return $vals;
-            $solution = $this->solve($vals);
+            $solution = [ $this->solve($vals) ];
             return $solution;
         }
         $vals[] = $this->operator;
