@@ -2,6 +2,11 @@
 RPN, a postfix library and command line calculator
 
 
+First off, things I would have done differenly: 
+    I would have better abstracted the actual CLI output code, and definitely would have done a better job writing this MD file.
+
+
+
 What is postfix?
 
 Postfix or RPN (reverse polish notation) is a mathematical expression notation which requires no parentheses and, thus, no PEMDAS (order of operation).  You can read more about it here:  https://en.wikipedia.org/wiki/Reverse_Polish_notation
