@@ -97,7 +97,8 @@ operators:
 It takes expressions, terminated by a semicolon or an empty newline.
 
 
-###Example:
+Example:
+-----
 Consider the following:  Four kids working a drink stand sold 20 sodas for $2 a piece.  They purchased the sodas for 75 cents each.  The following expressions entered into the calculator will calculate what each kid made in profit (assuming no other overhead):
 
 ```
